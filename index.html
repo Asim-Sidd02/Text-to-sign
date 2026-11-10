@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text to Sign Studio</title>
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+    "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.1.0/lib/three-vrm.module.min.js",
+    "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs"
+  }
+}
+</script>
+</head>
+<body>
+<header>
+  <h1>Text to Sign Studio</h1>
+  <span id="status" class="status">Loading tracking models…</span>
+</header>
+<main>
+  <section class="panel">
+    <h2>1. Record a sign</h2>
+    <div class="stage">
+      <video id="video" playsinline muted></video>
+      <canvas id="overlay"></canvas>
+      <div id="countdown" class="countdown"></div>
+      <div id="recBadge" class="rec-badge">● REC</div>
+      <div id="trackInfo" class="track-info"></div>
+    </div>
+    <div class="row">
+      <button id="camBtn" disabled>Start camera</button>
+      <input id="wordInput" placeholder="Word, phrase or single letter (e.g. hello, thank you, a)">
+    </div>
+    <div class="row">
+      <button id="recBtn" class="primary" disabled>Record sign</button>
+      <button id="stopBtn" class="danger" disabled>Stop &amp; save</button>
+      <label class="check"><input type="checkbox" id="liveChk" checked> Live avatar mirror</label>
+    </div>
+    <p class="hint">Sit about 1–1.5 m from the camera in good, even light. Keep your head, shoulders, elbows and both hands in view. Record single letters (a–z) so unknown words can be fingerspelled.</p>
+  </section>
+
+  <section class="panel">
+    <h2>2. Text to sign</h2>
+    <div class="stage avatar-stage">
+      <canvas id="avatar"></canvas>
+      <div id="avatarLoading" class="countdown small">Loading avatar…</div>
+      <div id="caption" class="caption"></div>
+    </div>
+    <div class="row">
+      <input id="textInput" placeholder="Type a sentence to sign…">
+      <button id="playBtn" class="primary">Sign it</button>
+      <button id="haltBtn">Stop</button>
+    </div>
+    <div class="row">
+      <label class="range">Speed <input type="range" id="speed" min="0.25" max="2" step="0.05" value="1"><span id="speedVal">1.00×</span></label>
+      <label class="check"><input type="checkbox" id="loopChk"> Loop</label>
+      <label class="file-btn">Load avatar (.vrm)<input type="file" id="modelInput" accept=".vrm"></label>
+      <button id="resetViewBtn">Reset view</button>
+    </div>
+    <div id="sequence" class="sequence"></div>
+  </section>
+
+  <section class="panel wide">
+    <div class="lib-head">
+      <h2>Sign library</h2>
+      <div class="row">
+        <button id="exportBtn">Export JSON</button>
+        <label class="file-btn">Import JSON<input type="file" id="importInput" accept="application/json"></label>
+      </div>
+    </div>
+    <div class="lib-body">
+      <ul id="library" class="library"></ul>
+      <video id="preview" class="preview" controls playsinline></video>
+    </div>
+  </section>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
